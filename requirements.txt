@@ -1,0 +1,7 @@
+TTS
+diffusers
+torch
+moviepy
+Pillow
+transformers
+huggingface_hub
