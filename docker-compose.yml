@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  story-video-generator:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: ["python", "story_video.py", "king story"]
+    environment:
+      - PYTHONUNBUFFERED=1

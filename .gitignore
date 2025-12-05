@@ -28,6 +28,7 @@ coverage.xml
 *.mp4
 scene_*
 final_story_video.mp4
+output/
 
 # IDE
 .vscode/

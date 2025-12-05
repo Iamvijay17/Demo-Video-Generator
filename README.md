@@ -17,6 +17,8 @@ A Python application that generates narrated story videos from text prompts. It 
 
 ## Installation
 
+### Option 1: Local Installation
+
 1. Clone the repository:
 ```bash
 git clone <your-repo-url>
@@ -45,6 +47,32 @@ sudo apt-get install ffmpeg imagemagick
 # Windows - download from official websites
 ```
 
+### Option 2: Docker Installation
+
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd story-video-generator
+```
+
+2. Build and run with Docker Compose:
+```bash
+docker-compose up --build
+```
+
+This will generate a story video for the default topic "king story" and save the output to the `output/` directory.
+
+To run with a custom topic, modify the `command` in `docker-compose.yml`:
+```yaml
+command: ["python", "story_video.py", "your custom topic"]
+```
+
+Or run directly with Docker:
+```bash
+docker build -t story-video-generator .
+docker run -v $(pwd)/output:/app/output story-video-generator python story_video.py "your topic"
+```
+
 ## Usage
 
 Run the story video generator:
@@ -71,6 +99,9 @@ This will:
 story-video-generator/
 ├── story_video.py          # Main application script
 ├── requirements.txt        # Python dependencies
+├── Dockerfile              # Docker configuration
+├── docker-compose.yml      # Docker Compose setup
+├── .dockerignore           # Docker ignore rules
 ├── .gitignore             # Git ignore rules
 ├── .python-version        # Python version specification
 └── README.md              # This file

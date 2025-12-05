@@ -34,7 +34,7 @@ def split_into_scenes(story):
 def generate_audios(scenes, tts):
     audio_files = []
     for i, scene in enumerate(scenes):
-        file_name = f"scene_audio_{i+1}.wav"
+        file_name = f"output/scene_audio_{i+1}.wav"
         print(f"Generating audio for scene {i+1}...")
         tts.tts_to_file(text=scene, speaker="Aaron Dreschner", language="en", file_path=file_name)
         audio_files.append(file_name)
@@ -57,7 +57,7 @@ def create_text_clips(scenes):
     return text_clips
 
 # Function to create video
-def create_video(audio_files, text_clips, output_file="final_story_video.mp4"):
+def create_video(audio_files, text_clips, output_file="output/final_story_video.mp4"):
     clips = []
     for audio_file, txt_clip in zip(audio_files, text_clips):
         audio = AudioFileClip(audio_file)
@@ -81,6 +81,9 @@ def main():
     topic = sys.argv[1]
     print(f"Generating story video for topic: {topic}")
 
+    # Ensure output directory exists
+    os.makedirs("output", exist_ok=True)
+
     # Generate story
     story = generate_story(topic)
     print(f"Story generated: {len(story)} characters")
@@ -103,7 +106,7 @@ def main():
     print("Creating video...")
     create_video(audio_files, text_clips)
 
-    print("Video created: final_story_video.mp4")
+    print("Video created: output/final_story_video.mp4")
 
 if __name__ == "__main__":
     main()
