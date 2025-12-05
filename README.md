@@ -49,6 +49,12 @@ sudo apt-get install ffmpeg imagemagick
 
 ### Option 2: Docker Installation
 
+#### Prerequisites
+- Docker installed on your system
+- Docker Compose installed (usually comes with Docker Desktop)
+
+#### Quick Start with Docker Compose
+
 1. Clone the repository:
 ```bash
 git clone <your-repo-url>
@@ -60,18 +66,79 @@ cd story-video-generator
 docker-compose up --build
 ```
 
-This will generate a story video for the default topic "king story" and save the output to the `output/` directory.
+This will:
+- Build the Docker image with all dependencies
+- Generate a story video for the default topic "king story"
+- Save the output video to the `output/` directory on your host machine
 
-To run with a custom topic, modify the `command` in `docker-compose.yml`:
+#### Running with Custom Topics
+
+To generate a story with a different topic, modify the `command` in `docker-compose.yml`:
+
 ```yaml
 command: ["python", "story_video.py", "your custom topic"]
 ```
 
-Or run directly with Docker:
+For example, to generate a story about "space exploration":
+```yaml
+command: ["python", "story_video.py", "space exploration"]
+```
+
+Then run:
+```bash
+docker-compose up --build
+```
+
+#### Alternative: Direct Docker Commands
+
+If you prefer using Docker directly:
+
+1. Build the image:
 ```bash
 docker build -t story-video-generator .
-docker run -v $(pwd)/output:/app/output story-video-generator python story_video.py "your topic"
 ```
+
+2. Run the container with a custom topic:
+```bash
+# Linux/macOS
+docker run -v $(pwd)/output:/app/output story-video-generator python story_video.py "your topic"
+
+# Windows (PowerShell)
+docker run -v ${PWD}/output:/app/output story-video-generator python story_video.py "your topic"
+
+# Windows (Command Prompt)
+docker run -v %cd%/output:/app/output story-video-generator python story_video.py "your topic"
+```
+
+#### Docker Development Workflow
+
+For development with live code changes:
+
+1. Mount the source code as a volume:
+```bash
+docker run -v $(pwd):/app -v $(pwd)/output:/app/output -it story-video-generator bash
+```
+
+2. Inside the container, you can run commands directly:
+```bash
+python story_video.py "your topic"
+```
+
+#### Troubleshooting
+
+- **Permission issues with output directory**: Ensure the output directory exists and has proper permissions:
+  ```bash
+  mkdir -p output
+  chmod 755 output
+  ```
+
+- **Large model downloads**: First run may take time due to TTS model downloads. Be patient and ensure stable internet connection.
+
+- **Memory issues**: If you encounter memory errors, try increasing Docker's memory limit in Docker Desktop settings.
+
+- **Port conflicts**: The application doesn't expose ports, so no port conflicts should occur.
+
+- **Windows file sharing**: If using Docker Desktop on Windows, ensure the project directory is shared in Docker settings.
 
 ## Usage
 
